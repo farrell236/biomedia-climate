@@ -83,13 +83,15 @@ try:
             f.write(output)
             f.close()
 
-            # Sending the data to thingspeak
-            conn = urllib2.urlopen(
-                baseURL + '&field1=%s&field2=%s&field3=%s&field4=%s' % (temp, pres, humi, airq))
-            print(conn.read())
-            
-            # Closing the connection
-            conn.close()
+            try:
+                # Sending the data to thingspeak
+                conn = urllib2.urlopen(
+                    baseURL + '&field1=%s&field2=%s&field3=%s&field4=%s' % (temp, pres, humi, airq))
+                print(conn.read())
+                # Closing the connection
+                conn.close()
+            except urllib2.URLError as e:
+                print(e.reason)
 
         time.sleep(60)
 
